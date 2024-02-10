@@ -90,7 +90,7 @@
 # if defined(   __cplusplus)
 #  define           __XARGS_INLINE              inline
 # else
-#  define            __XARGS_INLINE              
+#  define           __XARGS_INLINE              
 #endif
 #endif
 
