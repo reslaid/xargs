@@ -1,4 +1,4 @@
-> # [XArgs](https://github.com/reslaid/xargs.git) [![Version](https://img.shields.io/badge/Version-0.1.1-green.svg)](https://github.com/reslaid/xargs.git)
+> # [XArgs](https://github.com/reslaid/xargs.git) [![Version](https://img.shields.io/badge/Version-0.1.2-green.svg)](https://github.com/reslaid/xargs.git)
 > [![languages](https://skillicons.dev/icons?i=c,cpp)](https://github.com/reslaid/xargs.git)
 
 # **Dependencies**
