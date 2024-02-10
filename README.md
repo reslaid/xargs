@@ -18,7 +18,7 @@
 
 - **Creating Instance**
     ```cpp
-    int main(int argc, char* argv[])
+    void main(int argc, char* argv[])
     {
         Args args{ argc, argv };
     }
