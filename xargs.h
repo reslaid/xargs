@@ -161,7 +161,7 @@ __XARGS_EXTERN typedef struct
  */
 __XARGS_EXTERN struct _ArgsStruct
 {
-    int count_;         /**< The number of command-line arguments. */
+    _UINT count_;         /**< The number of command-line arguments. */
     _STR* vals_;        /**< Array of command-line argument strings. */
     _STR strvals_;      /**< Concatenated string of all command-line arguments. */
     __Arg_Flag* flags_; /**< Array of parsed command-line flags. */
@@ -190,7 +190,7 @@ __XARGS_EXTERN struct _ArgsStruct
         result[0] = '\0'; // Initialize the result string as empty
 
         // Concatenate each string with a space in between
-        for (int i = 0; i < count; i++) {
+        for (_UINT i = 0; i < count; i++) {
             strcat(result, strings[i]); // Concatenate the current string
             if (i < count - 1) {
                 strcat(result, " "); // Add a space if it's not the last string
@@ -212,7 +212,7 @@ __XARGS_EXTERN struct _ArgsStruct
 
         // Allocate memory for vals_ array and copy values
         this->vals_ = (_STR*)malloc(sizeof(_STR) * this->count_);
-        for (int i = 0; i < this->count_; i++) {
+        for (_UINT i = 0; i < this->count_; i++) {
             this->vals_[i] = values[i];
         }
 
@@ -228,7 +228,7 @@ __XARGS_EXTERN struct _ArgsStruct
      */
     __XARGS_INLINE __XARGS_CALLTYPE _ArgsStruct()
     {
-        this->count_ = 0;
+        this->count_ = (_UINT)0x0;
         this->vals_ = NULL;
         this->flags_ = NULL;
     }
