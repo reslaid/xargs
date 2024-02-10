@@ -7,12 +7,13 @@ int main(int argc, char* argv[])
     Flag fExitCode;
     bool fExitCodeExist;
 
-    fExitCode = args.get("-c");
+    fExitCode = args.get("--c");
     fExitCodeExist = args.exists(fExitCode);
 
     if (fExitCodeExist)
     {
-        exit((int)fExitCode.value);
+        int exitCode = atoi(fExitCode.value);
+        exit(exitCode);
     }
 
     return 0x000;
