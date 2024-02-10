@@ -85,6 +85,15 @@
 # define            __XARGS_DYNAMIC_CALLTYPE    __declspec
 #endif
 
+/* Inline */
+#if !defined(       __XARGS_INLINE)
+# if defined(   __cplusplus)
+#  define           __XARGS_INLINE              inline
+# else
+#  define            __XARGS_INLINE              
+#endif
+#endif
+
 /* Import specifier */
 #if !defined(       __XARGS_IMPORT)
 # define            __XARGS_IMPORT              __DYNAMIC_CALLTYPE(import)
@@ -163,7 +172,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param count Number of strings in the array.
      * @return Pointer to the concatenated string.
      */
-    _STR __XARGS_CALLTYPE _join(_STR* strings, int count) {
+    __XARGS_INLINE _STR __XARGS_CALLTYPE _join(_STR* strings, int count) {
         size_t total_length = 0; // Initialize total length to 0
         for (int i = 0; i < count; i++) {
             total_length += strlen(strings[i]); // Add the length of each string
@@ -196,7 +205,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param count Number of command-line arguments.
      * @param values Array of command-line argument strings.
      */
-    inline void __XARGS_CALLTYPE init(int count, _STR* values)
+    __XARGS_INLINE void __XARGS_CALLTYPE init(int count, _STR* values)
     {
         // Set the count of values
         this->count_ = count;
@@ -217,15 +226,19 @@ __XARGS_EXTERN struct _ArgsStruct
     /**
      * @brief Default constructor for the command-line arguments structure.
      */
-    inline __XARGS_CALLTYPE _ArgsStruct() :
-        count_(NULL), vals_(NULL), flags_(NULL) {}
+    __XARGS_INLINE __XARGS_CALLTYPE _ArgsStruct()
+    {
+        this->count_ = 0;
+        this->vals_ = NULL;
+        this->flags_ = NULL;
+    }
 
     /**
      * @brief Constructor for the command-line arguments structure.
      * @param count Number of command-line arguments.
      * @param values Array of command-line argument strings.
      */
-    inline __XARGS_CALLTYPE _ArgsStruct(int count, _STR* values)
+    __XARGS_INLINE __XARGS_CALLTYPE _ArgsStruct(int count, _STR* values)
     {
         this->init(count, values); // Call the init method to perform initialization
     }
@@ -235,7 +248,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param FLAG The flag to check for.
      * @return XARGS_RSLT value indicating whether the flag exists or not.
      */
-    inline XARGS_RSLT __XARGS_CALLTYPE contains(_CSTR FLAG)
+    __XARGS_INLINE XARGS_RSLT __XARGS_CALLTYPE contains(_CSTR FLAG)
     {
         // Search for the flag within the concatenated string values
         _STR rslt = strstr(this->strvals_, FLAG);
@@ -255,7 +268,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param FLAG The flag to check for.
      * @return XARGS_RSLT value indicating whether the flag exists or not.
      */
-    inline XARGS_RSLT __XARGS_CALLTYPE contains_iter(_CSTR FLAG)
+    __XARGS_INLINE XARGS_RSLT __XARGS_CALLTYPE contains_iter(_CSTR FLAG)
     {
         // Iterate through each individual string value
         for (int i = 0; i < count_; ++i) {
@@ -274,7 +287,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param flag2 Second flag to compare.
      * @return XARGS_RSLT value indicating whether the flags coincide or not.
      */
-    inline XARGS_RSLT __XARGS_CALLTYPE compare(__Arg_Flag* flag1, __Arg_Flag* flag2) {
+    __XARGS_INLINE XARGS_RSLT __XARGS_CALLTYPE compare(__Arg_Flag* flag1, __Arg_Flag* flag2) {
         // Compare the name fields of the two __Arg_Flag structures
         if (strcmp(flag1->name, flag2->name) == 0) {
             return XARGS_COINCIDENCE; // Names are identical, return XARGS_COINCIDENCE
@@ -289,7 +302,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param FLAG The flag string to parse.
      * @return Parsed flag structure.
      */
-    inline __Arg_Flag __XARGS_CALLTYPE parse(_STR FLAG)
+    __XARGS_INLINE __Arg_Flag __XARGS_CALLTYPE parse(_STR FLAG)
     {
         __Arg_Flag flag; // Declare a flag structure to hold the parsed flag information
         flag.name = NULL; // Initialize flag name to NULL
@@ -336,7 +349,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @brief Parse all command-line flags and return an array of parsed flags.
      * @return Array of parsed flags.
      */
-    inline __Arg_Flag* __XARGS_CALLTYPE parseall()
+    __XARGS_INLINE __Arg_Flag* __XARGS_CALLTYPE parseall()
     {
         // Allocate memory for an array to store parsed flags
         __Arg_Flag* flags = (__Arg_Flag*)malloc(sizeof(__Arg_Flag) * this->count_);
@@ -362,7 +375,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param flag The flag structure to check.
      * @return True if the flag exists, false otherwise.
      */
-    inline bool __XARGS_CALLTYPE exists(__Arg_Flag flag)
+    __XARGS_INLINE bool __XARGS_CALLTYPE exists(__Arg_Flag flag)
     {
         // Check if the name of the flag is not NULL
         return flag.name != NULL;
@@ -372,7 +385,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @brief Get the number of command-line flags.
      * @return The number of command-line flags.
      */
-    inline int __XARGS_CALLTYPE get_flags_count()
+    __XARGS_INLINE _UINT __XARGS_CALLTYPE get_flags_count()
     {
         // Subtract 1 from the total count to exclude the program name
         return this->count_ - 0x1;
@@ -387,7 +400,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param uindex The index of the command-line argument to retrieve.
      * @return Pointer to the command-line argument string.
      */
-    inline _STR __XARGS_CALLTYPE from_index(_UINT uindex)
+    __XARGS_INLINE _STR __XARGS_CALLTYPE from_index(_UINT uindex)
     {
         // Pointer to the command-line argument string at the specified index.
         return this->vals_[uindex];
@@ -398,7 +411,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param FLAG The flag string.
      * @return Pointer to the first non '-' character in the flag string.
      */
-    inline _STR __XARGS_CALLTYPE get_flag(_STR FLAG)
+    __XARGS_INLINE _STR __XARGS_CALLTYPE get_flag(_STR FLAG)
     {
         size_t size = strlen(FLAG);
 
@@ -418,7 +431,7 @@ __XARGS_EXTERN struct _ArgsStruct
      * @param FLAG The flag string.
      * @return Parsed flag structure.
      */
-    inline __Arg_Flag __XARGS_CALLTYPE get(_CSTR FLAG)
+    __XARGS_INLINE __Arg_Flag __XARGS_CALLTYPE get(_CSTR FLAG)
     {
         _STR FFLAG = this->get_flag((_STR)FLAG); // Extract the flag name
 
